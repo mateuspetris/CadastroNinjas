@@ -22,7 +22,8 @@ public class NinjaModel {
     private int idade;
 
     // @ManyToOne um ninja tem uma unica missão
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "missoes_id")// Foreing Key ou Chave Estrangeira
     private MissoesModel missoes;
 
     public NinjaModel() {
