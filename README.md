@@ -169,7 +169,7 @@ Este projeto tem como objetivo:
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Horácio Muller**
+Desenvolvido por **Mateus Petris**
 
 Se este projeto foi útil para você, considere deixar uma ⭐ no repositório!
 
