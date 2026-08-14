@@ -1,22 +1,30 @@
 package dev.java10x.CadastroDeNinjas.Missoes;
 
+import dev.java10x.CadastroDeNinjas.Ninjas.NinjaModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("missoes")
+@RequestMapping("/missoes")
 public class MissoesController {
 
-    // Get -- Mandar uma requisao para mostrar as missoes
+    private MissoesService missoesService;
+
+    public MissoesController(MissoesService missoesService){
+        this.missoesService = missoesService;
+    }
+
     @GetMapping("/listar")
-    public String listarMissao(){
-        return "Missoes listadas com sucesso";
+    public List<MissoesModel> listarMissao(){
+        return missoesService.listarMissoes();
     }
 
     // Post -- Mandar uma requisao para criar as missoes
     @PostMapping("/criar")
-    public String criarMissao(){
-        return "Missão criada com sucesso";
+    public MissoesModel criarMissao(@RequestBody MissoesModel missao){
+        return missoesService.criarMissao(missao);
     }
 
     // Put -- Mandar uma requisao para alterar as missoes
@@ -27,7 +35,7 @@ public class MissoesController {
 
     // Delete -- Mandar uma requisao para deletar as missoes
     @DeleteMapping("/deletar")
-    public String deletarMissao(){
-        return "Missão deletada com sucesso";
+    public void deletarMissao(@PathVariable long id){
+        missoesService.deleterMissaoId(id);
     }
 }
