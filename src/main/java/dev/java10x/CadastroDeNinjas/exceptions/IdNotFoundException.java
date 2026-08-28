@@ -1,12 +1,12 @@
 package dev.java10x.CadastroDeNinjas.exceptions;
 
-public class idException extends  RuntimeException{
+public class IdNotFoundException extends  RuntimeException{
 
-    public idException() {
+    public IdNotFoundException() {
         super("ID não encontrado");
     }
 
-    public idException(String message){
+    public IdNotFoundException(String message){
         super(message);
     }
 }
