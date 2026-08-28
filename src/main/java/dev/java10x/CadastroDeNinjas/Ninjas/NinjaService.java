@@ -1,5 +1,7 @@
 package dev.java10x.CadastroDeNinjas.Ninjas;
 
+import dev.java10x.CadastroDeNinjas.exceptions.IdNotFoundException;
+import dev.java10x.CadastroDeNinjas.exceptions.NinjaNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,22 +23,28 @@ public class NinjaService {
     //Listar todos os ninjas
     public List<NinjaDTO> listarNinjas(){
         List<NinjaModel> ninjas = ninjaRepository.findAll();
+        if (ninjas == null) {
+            throw new NinjaNotFoundException();
+        }
         return ninjas.stream()
                 .map(ninjaMapper::map)
                 .collect(Collectors.toList());
-
     }
 
     // Listar por id
     public NinjaDTO listarPorId(Long id){
         Optional<NinjaModel> ninja = ninjaRepository.findById(id);
-        return ninja.map(ninjaMapper::map).orElse(null);
+        return ninja.map(ninjaMapper::map)
+                .orElseThrow(IdNotFoundException::new);
 
 
     }
 
     public NinjaDTO criarNinja(NinjaDTO ninjaDTO){
         NinjaModel ninja = ninjaMapper.map(ninjaDTO);
+        if(ninja == null){
+            throw new NinjaNotFoundException();
+        }
         ninja = ninjaRepository.save(ninja);
         return ninjaMapper.map(ninja);
 
@@ -50,11 +58,14 @@ public class NinjaService {
             NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
             return ninjaMapper.map(ninjaSalvo);
         }
-        return null;
+        throw new IdNotFoundException();
 
     }
 
     public void deletarNinjaPorId(Long id){
+        if(!ninjaRepository.findById(id).isPresent()) {
+            throw new IdNotFoundException();
+        }
         ninjaRepository.deleteById(id);
     }
 }
