@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/missoes")
 public class MissoesController {
 
-    private MissoesService missoesService;
+    private final MissoesService missoesService;
 
     public MissoesController(MissoesService missoesService){
         this.missoesService = missoesService;
@@ -28,7 +28,7 @@ public class MissoesController {
     }
 
     // Put -- Mandar uma requisao para alterar as missoes
-    @PutMapping("/alterar")
+    @PutMapping("/alterar/{id}")
     public MissoesModel alterarMissao(@PathVariable Long id, @RequestBody MissoesModel missaoAtualizada){
         return missoesService.alterarMissao(id, missaoAtualizada);
     }

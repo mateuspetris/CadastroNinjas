@@ -7,7 +7,7 @@ import java.util.List;
 @Service
 public class MissoesService {
 
-    final private MissoesRepository missoesRepository;
+    private final MissoesRepository missoesRepository;
 
     public MissoesService(MissoesRepository missoesRepository){
         this.missoesRepository = missoesRepository;
