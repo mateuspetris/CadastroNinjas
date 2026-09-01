@@ -1,6 +1,7 @@
 package dev.java10x.CadastroDeNinjas.infra;
 
 import dev.java10x.CadastroDeNinjas.exceptions.IdNotFoundException;
+import dev.java10x.CadastroDeNinjas.exceptions.MissoesNotFoundException;
 import dev.java10x.CadastroDeNinjas.exceptions.NinjaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<RestErrorMessage> ninjaNotFound(NinjaNotFoundException exception){
         RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((threatResponse));
+    }
+
+    @ExceptionHandler(MissoesNotFoundException.class)
+    private ResponseEntity<RestErrorMessage> missoesNotFound(MissoesNotFoundException exception){
+        RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatResponse);
     }
 
 }
