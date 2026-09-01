@@ -23,7 +23,7 @@ public class NinjaService {
     //Listar todos os ninjas
     public List<NinjaDTO> listarNinjas(){
         List<NinjaModel> ninjas = ninjaRepository.findAll();
-        if (ninjas == null) {
+        if (ninjas.isEmpty()) {
             throw new NinjaNotFoundException();
         }
         return ninjas.stream()
@@ -52,18 +52,17 @@ public class NinjaService {
 
     public NinjaDTO alterarNinja(long id, NinjaDTO ninjaDTO){
         Optional<NinjaModel> ninjaExistente = ninjaRepository.findById(id);
-        if(ninjaExistente.isPresent()){
-            NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
-            ninjaAtualizado.setId(id);
-            NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
-            return ninjaMapper.map(ninjaSalvo);
+        if(ninjaExistente.isEmpty()){
+            throw new IdNotFoundException();
         }
-        throw new IdNotFoundException();
-
+        NinjaModel ninjaAtualizado = ninjaMapper.map(ninjaDTO);
+        ninjaAtualizado.setId(id);
+        NinjaModel ninjaSalvo = ninjaRepository.save(ninjaAtualizado);
+        return ninjaMapper.map(ninjaSalvo);
     }
 
     public void deletarNinjaPorId(Long id){
-        if(!ninjaRepository.findById(id).isPresent()) {
+        if(ninjaRepository.findById(id).isEmpty()) {
             throw new IdNotFoundException();
         }
         ninjaRepository.deleteById(id);
